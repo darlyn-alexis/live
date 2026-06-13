@@ -17,7 +17,7 @@ const MIME_TYPES = {
     '.svg': 'image/svg+xml'
 };
 
-const server = http.createServer((req, res) => {
+const requestHandler = (req, res) => {
     console.log(`${req.method} ${req.url}`);
 
     // Endpoint del Proxy para la API principal
@@ -319,8 +319,8 @@ const server = http.createServer((req, res) => {
         return;
     }
 
-    // Servir archivos estáticos
-    let filePath = path.join(__dirname, req.url === '/' ? 'index.html' : req.url);
+    // Servir archivos estáticos (solo relevante para desarrollo local)
+    let filePath = path.join(__dirname, '..', req.url === '/' ? 'index.html' : req.url);
     const extname = path.extname(filePath);
     let contentType = MIME_TYPES[extname] || 'application/octet-stream';
 
@@ -338,10 +338,15 @@ const server = http.createServer((req, res) => {
             res.end(content, 'utf-8');
         }
     });
-});
+};
 
-server.listen(PORT, () => {
-    console.log(`==================================================`);
-    console.log(` Servidor deportivo corriendo en: http://localhost:${PORT}`);
-    console.log(`==================================================`);
-});
+module.exports = requestHandler;
+
+if (require.main === module) {
+    const server = http.createServer(requestHandler);
+    server.listen(PORT, () => {
+        console.log(`==================================================`);
+        console.log(` Servidor deportivo corriendo en: http://localhost:${PORT}`);
+        console.log(`==================================================`);
+    });
+}

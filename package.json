@@ -2,9 +2,9 @@
   "name": "sports-dashboard",
   "version": "1.0.0",
   "description": "Dashboard de Deportes y Streaming de Canales",
-  "main": "server.js",
+  "main": "api/server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node api/server.js"
   },
   "dependencies": {}
 }
