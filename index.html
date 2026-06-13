@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AX Sports | Dashboard de Encuentros Deportivos</title>
+    <meta name="description" content="Sigue en vivo y entérate de los próximos partidos y resultados del fútbol mundial con nuestra plataforma interactiva en tiempo real.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Estilos de la aplicación -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Encabezado de la página -->
+        <header>
+            <div class="logo-container">
+                <div class="logo-icon">AX</div>
+                <h1 class="logo-text">AX Sports Live</h1>
+            </div>
+            <div style="font-size: 0.85rem; color: var(--text-secondary); font-weight: 500;">
+                Datos Reales de la API en Tiempo Real
+            </div>
+        </header>
+
+        <!-- Carrusel de Ligas -->
+        <section class="leagues-carousel-container">
+            <div class="leagues-carousel" id="leagues-carousel">
+                <!-- Se inyectarán los botones de ligas aquí -->
+            </div>
+            
+            <!-- Botones del abecedario -->
+            <div class="alphabet-container" id="alphabet-container">
+                <!-- Se inyectarán las letras del abecedario aquí -->
+            </div>
+        </section>
+
+        <!-- Sección de Filtros y Búsqueda -->
+        <section class="controls-section">
+            <div class="filters" role="group" aria-label="Filtros de partidos">
+                <button type="button" class="filter-btn active" data-filter="all" id="btn-filter-all">Todos</button>
+                <button type="button" class="filter-btn" data-filter="live" id="btn-filter-live">En Vivo</button>
+                <button type="button" class="filter-btn" data-filter="upcoming" id="btn-filter-upcoming">Próximos</button>
+                <button type="button" class="filter-btn" data-filter="channels" id="btn-filter-channels">Canales Online</button>
+                <button type="button" class="filter-btn" data-filter="agenda" id="btn-filter-agenda">Agenda</button>
+            </div>
+            
+            <div class="search-box">
+                <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="search-input" class="search-input" placeholder="Buscar equipo o liga..." aria-label="Buscar encuentros deportivos">
+            </div>
+        </section>
+
+        <!-- Submenú de Fuentes de Canales (Oculto por defecto) -->
+        <section id="channels-sources-section" style="display: none; margin-bottom: 20px;">
+            <div class="filters" role="group" aria-label="Fuentes de Canales">
+                <button type="button" class="filter-btn active" data-source="live_tv_1" id="btn-source-tv1">Live TV 1</button>
+                <button type="button" class="filter-btn" data-source="live_tv_2" id="btn-source-tv2">Live TV 2</button>
+                <button type="button" class="filter-btn" data-source="live_tv_3" id="btn-source-tv3">Live TV 3</button>
+                <button type="button" class="filter-btn" data-source="live_tv_4" id="btn-source-tv4">Live TV 4</button>
+                <button type="button" class="filter-btn" data-source="live_tv_5" id="btn-source-tv5">Live TV 5</button>
+                <button type="button" class="filter-btn" data-source="live_tv_6" id="btn-source-tv6">Live TV 6</button>
+            </div>
+        </section>
+
+        <!-- Submenú de Fuentes de Agenda (Oculto por defecto) -->
+        <section id="agenda-sources-section" style="display: none; margin-bottom: 20px;">
+            <div class="filters" role="group" aria-label="Fuentes de Agenda">
+                <button type="button" class="filter-btn active" data-source="agenda_1" id="btn-source-agenda1">Agenda 1</button>
+                <button type="button" class="filter-btn" data-source="agenda_2" id="btn-source-agenda2">Agenda 2</button>
+            </div>
+        </section>
+
+        <!-- Contenedor Principal de Encuentros -->
+        <main class="fixtures-grid" id="fixtures-grid" aria-live="polite">
+            <!-- Las tarjetas de encuentros se inyectarán dinámicamente mediante JS -->
+        </main>
+    </div>
+
+    <!-- Modal del Reproductor de Stream -->
+    <div class="modal-backdrop" id="stream-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h3 class="modal-title" id="modal-match-title">Cargando encuentro...</h3>
+                    <p class="modal-subtitle" id="modal-match-league">Liga</p>
+                </div>
+                <button class="close-modal-btn" id="close-modal-btn" aria-label="Cerrar reproductor">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Detalles del Encuentro en Vivo -->
+            <div class="modal-match-details" id="modal-match-details" style="display: none;">
+                <!-- Se inyectarán los marcadores y logos aquí -->
+            </div>
+
+            <!-- Selector de opciones de transmisión -->
+            <div class="stream-options" id="stream-options-container">
+                <!-- Se inyectarán botones para cada canal disponible -->
+            </div>
+
+            <!-- Contenedor responsivo del reproductor -->
+            <div class="player-wrapper">
+                <div class="player-container" id="player-container">
+                    <!-- El iframe o spinner se cargará aquí -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Biblioteca Hls.js para reproducir streams .m3u8 directamente -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <!-- Scripts de la aplicación -->
+    <script src="app.js"></script>
+</body>
+</html>
