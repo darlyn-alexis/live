@@ -320,7 +320,7 @@ const requestHandler = (req, res) => {
     }
 
     // Servir archivos estáticos (solo relevante para desarrollo local)
-    let filePath = path.join(__dirname, '..', req.url === '/' ? 'index.html' : req.url);
+    let filePath = path.join(__dirname, '..', 'public', req.url === '/' ? 'index.html' : req.url);
     const extname = path.extname(filePath);
     let contentType = MIME_TYPES[extname] || 'application/octet-stream';
 
